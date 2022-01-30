@@ -24,15 +24,15 @@ watershed <- function(x,
       # the input matrix x
       indata = as.double(x),
       # the output matrix
-      outdata = t(matrix(rep(
+      outdata = matrix(rep(
         as.integer(0), nx * ny
-      ), ncol = ny)),
+      ), ncol = nx),
       # dimension size x = dim y in fortran
       nx = as.integer(ny),
       # dimension size y = dim x in fortran
       ny = as.integer(nx),
       # periodic boundary conditions?
-      periodici = periodic
+      periodic = periodic
     )
     data.output <- retdata$outdata
   }else if(method == "R"){# call the R implementation
