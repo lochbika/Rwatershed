@@ -32,12 +32,12 @@ rwatershed <- function(x) {
       data.shifted[, , i] <- magic::ashift(x, v = shift.vectors[i, ])
     }
     # get the direction to the neighbors at each pixel
-    # if a particle would have follow the gradient
+    # if a drop of water would have to follow the gradient
     data.direction <-
-      reshape2::melt(apply(data.shifted, FUN = which.max, MARGIN = c(1, 2)))
-    # generate initial coordinates for each particle of the input matrix
+      reshape2::melt(apply(data.shifted, FUN = which.min, MARGIN = c(1, 2)))
+    # generate initial coordinates for each drop of the input matrix
     init.coor <- expand.grid(seq(1, dim(x)[1]), seq(1, dim(x)[2]))
-    # initialize, then loop and move particles along the gradient
+    # initialize, then loop and let drops flow along the gradient
     changed <- TRUE
     old.coor <- init.coor
     new.coor <- init.coor
@@ -63,11 +63,11 @@ rwatershed <- function(x) {
 
     # fill matrix with labels for segments
     data.output <- matrix(0, nrow = dim(x)[1], ncol = dim(x)[2])
-    loc.max <- unique((old.coor[, 2] - 1) * dim(x)[1] + old.coor[, 1])
+    loc.min <- as.integer(rownames(data.direction[data.direction[, 3]==5, c(1, 2)]))
 
-    for (i in 1:length(loc.max)) {
+    for (i in 1:length(loc.min)) {
       data.output[seq(1, dim(x)[1] * dim(x)[2])[(old.coor[, 2] - 1) * dim(x)[1] + old.coor[, 1] ==
-                                                  loc.max[i]]] <- i
+                                                  loc.min[i]]] <- i
     }
     return(data.output)
 }
