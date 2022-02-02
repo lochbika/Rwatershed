@@ -13,6 +13,6 @@ This R package contains functions to compute the watershed segmentation of an in
     > watershed(x, method = "R")
 
 where x is the input matrix.
-    
+
 ## More information
-The documentation is a good starting point. For a full tutorial and demonstration, check out the [blog post on my personal website](https://lochbihler.nl/practice-your-r-two-options-to-implement-the-watershed-segmentation/).
+The documentation is a good starting point. Then there is a small sample script (demonstration.R) that demonstrates the use with the sample data of this package. For a full tutorial and demonstration, check out the [blog post on my personal website](https://lochbihler.nl/practice-your-r-two-options-to-implement-the-watershed-segmentation/).
