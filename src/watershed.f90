@@ -21,14 +21,14 @@ subroutine watershed_simple(indata,outdata,nx,ny,periodic)
   logical :: locmax(nx,ny)
 
   ! initialize variables and arrays
-  fillval=-999.D0
+  fillval=HUGE(fillval)
   outdata=0
   locmax=.false.
   dir=0
   npart=nx*ny
   nlocmax=0
 
-  ! find local maxima and directions
+  ! find local minima and directions
   do y=1,ny
     do x=1,nx
       ! extract the 8 neighboring grid points
@@ -145,11 +145,11 @@ subroutine watershed_simple(indata,outdata,nx,ny,periodic)
       end if
 
       ! so, now we know the neighboring grid points
-      ! is this grid point a local maximum??
+      ! is this grid point a local minimum??
       lmaxt=fillval
       tp=0
       do i=1,9
-        if(neighb(i)>lmaxt)then
+        if(neighb(i)<=lmaxt)then
           tp=i
           lmaxt=neighb(i)
         end if
@@ -164,9 +164,9 @@ subroutine watershed_simple(indata,outdata,nx,ny,periodic)
   end do
 
   ! we have the directions for each pixel
-  ! and know which of them are local maxima
-  
-  ! lets seed particles and let them migrate to them
+  ! and know which of them are local minima
+
+  ! lets seed drops and let them flow to them
   ! get their initial coordinates
   allocate(ipartcoor(npart,2),partcoor(npart,2),locmaxcoor(nlocmax,2))
   tp=0 ! counter for locmax
